@@ -8,9 +8,9 @@ class MyHomePage extends StatelessWidget {
   final String kelas = 'PBP D';
 
   final List<ItemHomepage> items = const [
-    ItemHomepage('Lihat Proyek', Icons.folder),
-    ItemHomepage('Tambah Proyek', Icons.add_circle),
-    ItemHomepage('Logout', Icons.logout),
+    ItemHomepage('Lihat Proyek', Icons.folder, Colors.blue),
+    ItemHomepage('Tambah Proyek', Icons.add_circle, Colors.green),
+    ItemHomepage('Logout', Icons.logout, Colors.red),
   ];
 
   @override
@@ -18,13 +18,46 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'MyPortfolio',
+          'MyPortofolio',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
+
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline, color: Colors.white),
+            tooltip: 'Tentang Aplikasi',
+            onPressed: () {
+              showDialog<void>(
+                context: context,
+                builder: (BuildContext dialogContext) {
+                  return AlertDialog(
+                    title: const Text('Tentang MyPortofolio'),
+                    content: const Text(
+                      'MyPortofolio adalah aplikasi portofolio pribadi '
+                      'milik Naufal Khairiy Zulkarnain Sormin. \n\n'
+                      'NPM: 2506621850\n'
+                      'Kelas: PBP D\n\n'
+                      'Aplikasi ini dibuat menggunakan Flutter '
+                      'untuk menampilkan informasi dan proyek portofolio. ',
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(dialogContext).pop();
+                        }, 
+                        child: const Text('Tutup'),
+                        ),
+                    ],
+                  );
+                },
+              );
+            },
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -105,8 +138,9 @@ class InfoCard extends StatelessWidget {
 class ItemHomepage {
   final String name;
   final IconData icon;
+  final Color color;
 
-  const ItemHomepage(this.name, this.icon);
+  const ItemHomepage(this.name, this.icon, this.color);
 }
 
 class ItemCard extends StatelessWidget {
@@ -117,7 +151,7 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).colorScheme.secondary,
+      color: item.color,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: () {
