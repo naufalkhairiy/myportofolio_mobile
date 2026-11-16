@@ -25,6 +25,39 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
+
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline, color: Colors.white),
+            tooltip: 'Tentang Aplikasi',
+            onPressed: () {
+              showDialog<void>(
+                context: context,
+                builder: (BuildContext dialogContext) {
+                  return AlertDialog(
+                    title: const Text('Tentang MyPortofolio'),
+                    content: const Text(
+                      'MyPortofolio adalah aplikasi portofolio pribadi '
+                      'milik Naufal Khairiy Zulkarnain Sormin. \n\n'
+                      'NPM: 2506621850\n'
+                      'Kelas: PBP D\n\n'
+                      'Aplikasi ini dibuat menggunakan Flutter '
+                      'untuk menampilkan informasi dan proyek portofolio. ',
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(dialogContext).pop();
+                        }, 
+                        child: const Text('Tutup'),
+                        ),
+                    ],
+                  );
+                },
+              );
+            },
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
