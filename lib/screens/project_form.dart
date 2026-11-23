@@ -177,10 +177,17 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text(
-                                'Proyek berhasil ditambahkan!',
-                              ),
-                              actions: [
+                            title: const Text(
+                              'Proyek berhasil ditambahkan!',
+                            ),
+                            content: Text(
+                              'Nama: $_projectName\n'
+                              'Deskripsi: $_description\n'
+                              'Kategori: $_category\n'
+                              'Teknologi: ${_technologies.isEmpty ? "-" : _technologies}\n'
+                              'Tautan: ${_projectLink.isEmpty ? "-" : _projectLink}',
+                            ),
+                            actions: [
                                 TextButton(
                                   child: const Text('OK'),
                                   onPressed: () {

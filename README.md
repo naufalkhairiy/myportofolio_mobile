@@ -8,33 +8,52 @@ Aplikasi portofolio pribadi berbasis Flutter yang dibuat untuk mata kuliah Pemro
 - **NPM:** 2506621850
 - **Class:** PBP D
 
+
 ## Project Description
 
 Project ini merupakan aplikasi portofolio pribadi berbasis Flutter yang dikembangkan untuk mata kuliah Pemrograman Berbasis Platform di Universitas Indonesia. Aplikasi ini merupakan versi mobile dari project website portofolio sebelumnya yang dibuat menggunakan Django.
 
-Pada Tutorial 8, aplikasi dibangun menggunakan Flutter dan bahasa pemrograman Dart. Implementasi awal berfokus pada pembuatan halaman utama, pemisahan struktur kode, penggunaan StatelessWidget, serta pembuatan komponen antarmuka yang dapat digunakan kembali.
+Pada Tutorial 8, aplikasi dibangun menggunakan Flutter dan Dart dengan fokus pada pembuatan halaman utama, penggunaan StatelessWidget, serta pemisahan komponen antarmuka agar dapat digunakan kembali.
 
-Pada Tugas 7, aplikasi dikembangkan lebih lanjut dengan menampilkan identitas pemilik portofolio, tiga tombol aksi yang mempunyai warna berbeda, feedback menggunakan SnackBar, serta fitur tambahan berupa dialog informasi aplikasi.
+Pada Tugas 7, aplikasi dikembangkan dengan menampilkan identitas pemilik portofolio, tiga tombol aksi dengan warna berbeda, feedback menggunakan SnackBar, serta fitur tambahan berupa dialog informasi aplikasi.
 
-Aplikasi saat ini berfokus pada antarmuka Flutter dan belum terhubung dengan backend Django. Tombol Lihat Proyek, Tambah Proyek, dan Logout masih berupa simulasi interaksi menggunakan SnackBar.
+Pada Tutorial 09, aplikasi mulai menggunakan navigasi antarhalaman melalui Navigator, Drawer, serta formulir Tambah Proyek yang menerapkan StatefulWidget, Form, validasi input, dan dialog.
+
+Pada Tugas 8, aplikasi dikembangkan lebih lanjut dengan menambahkan halaman Tambah Edukasi. Formulir ini menggunakan atribut yang disesuaikan dengan model Education pada project Django sebelumnya. Pengguna dapat memasukkan informasi pendidikan, melakukan validasi, dan melihat ringkasan data melalui AlertDialog.
+
+Sebagai fitur tambahan, terdapat Switch untuk menandai apakah pendidikan masih berlangsung. Fitur ini menentukan apakah input tahun selesai perlu diisi serta memastikan tahun selesai tidak lebih awal daripada tahun mulai.
+
+Aplikasi saat ini masih berfokus pada implementasi antarmuka Flutter dan belum terhubung langsung dengan backend Django. Data formulir ditampilkan melalui dialog sebagai simulasi penyimpanan.
 
 Repository website Django dapat diakses melalui:
 https://github.com/naufalkhairiy/myportofolio
 
 ## Main Features
 
-- Menampilkan informasi pemilik portofolio berupa NPM, nama lengkap, dan kelas.
-- Menggunakan tiga reusable InfoCard untuk menampilkan identitas.
-- Menampilkan tiga tombol aksi: Lihat Proyek, Tambah Proyek, dan Logout.
-- Menggunakan ItemCard sebagai reusable widget untuk tombol aksi.
+- Menampilkan identitas pemilik portofolio berupa NPM, nama lengkap, dan kelas.
+- Menggunakan reusable InfoCard untuk menampilkan informasi pribadi.
+- Menampilkan empat kartu aksi: Lihat Proyek, Tambah Proyek, Tambah Edukasi, dan Logout.
+- Menggunakan ItemCard sebagai reusable widget untuk kartu aksi.
 - Menggunakan model ItemHomepage untuk menyimpan nama, ikon, dan warna tombol.
-- Menerapkan warna berbeda pada setiap tombol: biru, hijau, dan merah.
-- Menampilkan SnackBar ketika tombol aksi ditekan.
-- Menggunakan GridView untuk menyusun tombol dalam tiga kolom.
+- Menggunakan warna berbeda pada setiap kartu aksi.
+- Menampilkan SnackBar sebagai feedback pada tombol yang masih berupa simulasi.
+- Menggunakan GridView untuk menyusun kartu aksi.
 - Menggunakan Material Design 3 dengan tema utama indigo.
 - Menggunakan StatelessWidget untuk halaman utama.
-- Memisahkan konfigurasi aplikasi di main.dart dari tampilan halaman di menu.dart.
-- Menambahkan tombol informasi pada AppBar yang menampilkan AlertDialog berisi informasi aplikasi sebagai fitur interaktivitas tambahan.
+- Menggunakan StatefulWidget untuk halaman formulir.
+- Menggunakan Navigator.push() dan Navigator.pushReplacement() untuk perpindahan halaman.
+- Menyediakan Drawer yang dapat digunakan pada halaman utama maupun formulir.
+- Menyediakan formulir Tambah Proyek dan Tambah Edukasi.
+- Menggunakan GlobalKey<FormState> dan validator untuk pemeriksaan input.
+- Menolak nama institusi kosong atau hanya berisi spasi.
+- Memvalidasi format tahun mulai dan tahun selesai.
+- Memastikan tahun selesai tidak lebih awal daripada tahun mulai.
+- Menggunakan SwitchListTile untuk menandai pendidikan yang masih berlangsung.
+- Menampilkan ringkasan seluruh input pendidikan menggunakan AlertDialog.
+- Menggunakan SingleChildScrollView agar formulir dapat digulir pada layar kecil.
+- Mempertahankan fitur dialog informasi aplikasi pada AppBar.
+- Menggunakan flutter analyze dan widget testing untuk memeriksa kualitas implementasi.
+
 
 ## Technologies Used
 
@@ -45,6 +64,7 @@ https://github.com/naufalkhairiy/myportofolio
 - Google Chrome untuk pengujian Flutter Web
 - Git dan GitHub
 
+
 ## Project Structure
 
 Struktur source code utama:
@@ -53,7 +73,13 @@ Struktur source code utama:
 myportofolio_mobile/
 ├── lib/
 │   ├── main.dart
-│   └── menu.dart
+│   ├── screens/
+│   │   ├── menu.dart
+│   │   ├── project_form.dart
+│   │   └── education_form.dart
+│   └── widgets/
+│       ├── left_drawer.dart
+│       └── project_card.dart
 ├── test/
 │   └── widget_test.dart
 ├── pubspec.yaml
@@ -61,11 +87,20 @@ myportofolio_mobile/
 └── README.md
 ```
 
-`main.dart` berfungsi sebagai entry point aplikasi dan tempat konfigurasi MaterialApp serta tema.
+`main.dart` merupakan entry point aplikasi yang mengatur MaterialApp dan tema utama.
 
-`menu.dart` berisi halaman MyHomePage, model ItemHomepage, komponen InfoCard, dan komponen ItemCard.
+`menu.dart` berisi MyHomePage, model ItemHomepage, dan komponen InfoCard.
 
-Direktori `test/` digunakan untuk pengujian widget Flutter.
+`project_form.dart` menyediakan formulir Tambah Proyek dari Tutorial 09.
+
+`education_form.dart` menyediakan formulir Tambah Edukasi dengan validasi, Switch, dan dialog ringkasan.
+
+`left_drawer.dart` berisi komponen Drawer yang digunakan kembali pada beberapa halaman.
+
+`project_card.dart` berisi ItemCard untuk menampilkan kartu aksi dan menangani navigasi dari halaman utama.
+
+Direktori `test/` digunakan untuk pengujian widget, navigasi, dan validasi formulir.
+
 
 ## How to Run Locally
 
@@ -142,6 +177,36 @@ Aplikasi dapat dijalankan melalui browser Chrome tanpa memerlukan Android Emulat
 - Menggunakan AlertDialog untuk menampilkan informasi aplikasi dan tombol untuk menutup dialog.
 - Menggunakan branch `tugas-7-flutter` untuk memisahkan pengembangan tugas dari branch utama.
 - Mengelompokkan perubahan kode, dokumentasi, dan testing melalui commit Git yang terpisah.
+
+
+### Tutorial 09 - Flutter Navigation and Forms
+
+- Melakukan refactoring struktur project dengan memisahkan halaman ke direktori screens dan reusable widget ke direktori widgets.
+- Membuat halaman formulir Tambah Proyek menggunakan StatefulWidget.
+- Menggunakan Form dan GlobalKey<FormState> untuk mengelola validasi input.
+- Menggunakan TextFormField dan DropdownButtonFormField untuk menerima data proyek.
+- Menambahkan Drawer sebagai navigasi antarhalaman.
+- Menggunakan Navigator untuk membuka halaman dan mengatur perpindahan antarhalaman.
+- Menggunakan AlertDialog sebagai feedback setelah formulir lolos validasi.
+- Menjalankan flutter analyze untuk memeriksa implementasi.
+- Menyimpan hasil Tutorial 09 melalui Git dan GitHub.
+
+### Tugas 8 - Education Form
+
+- Membuat education_form.dart sebagai halaman formulir baru.
+- Menyesuaikan input dengan model Education pada project Django sebelumnya.
+- Menambahkan input institusi, program studi, tahun mulai, dan tahun selesai.
+- Menggunakan validasi untuk menolak input wajib yang kosong.
+- Memvalidasi format tahun dan memastikan urutan tahun masuk akal.
+- Menambahkan fitur ekstra berupa Switch untuk pendidikan yang masih berlangsung.
+- Menambahkan kartu Tambah Edukasi pada halaman utama.
+- Menambahkan navigasi Add Education pada Drawer.
+- Menggunakan AlertDialog untuk menampilkan ringkasan seluruh input.
+- Memperbaiki responsivitas halaman dan tampilan Drawer.
+- Memperbarui widget testing untuk menyesuaikan fitur baru.
+- Melakukan debugging berdasarkan hasil flutter analyze dan flutter test.
+- Menggunakan branch tugas-8-flutter dan commit terpisah untuk setiap tahap pengembangan.
+
 
 ## Tugas 7
 
@@ -425,6 +490,220 @@ AI membantu mempercepat proses pembelajaran serta memberikan arahan yang lebih t
 Namun, hasil AI tetap perlu ditinjau karena solusi yang terlihat benar secara sintaksis belum tentu sesuai dengan struktur project, environment, atau ketentuan penilaian.
 
 Oleh karena itu, penggunaan AI dipadukan dengan pemeriksaan manual terhadap source code, pengujian aplikasi di browser, analisis statis, serta pemeriksaan riwayat Git.
+
+
+## Pertanyaan Reflektif - Tugas 8
+
+### Tugas 8
+
+#### 1. Jelaskan perbedaan antara Navigator.push(), Navigator.pushReplacement(), dan Navigator.pop(). Metode apa yang digunakan untuk membuka formulir dari kartu aksi? Jelaskan juga bagaimana opsi Home di drawer membawa pengguna kembali ke halaman utama.
+
+Navigator merupakan mekanisme Flutter untuk mengelola perpindahan halaman menggunakan navigation stack.
+
+Navigator.push() digunakan untuk membuka halaman baru dengan menambahkannya ke navigation stack. Halaman sebelumnya tetap tersimpan sehingga pengguna dapat kembali menggunakan tombol Back.
+
+Navigator.pushReplacement() digunakan untuk mengganti halaman yang sedang aktif dengan halaman baru. Berbeda dengan push(), halaman sebelumnya tidak dipertahankan sebagai route aktif dalam posisi tersebut.
+
+Navigator.pop() digunakan untuk menutup route yang sedang aktif dan kembali ke route sebelumnya. Metode ini juga dapat digunakan untuk menutup dialog atau Drawer sesuai dengan context yang digunakan.
+
+Pada project saya, kartu Tambah Edukasi menggunakan Navigator.push() untuk membuka EducationFormPage. Dengan demikian, pengguna dapat kembali ke halaman utama menggunakan tombol Back.
+
+Sementara itu, navigasi melalui Drawer menggunakan pushReplacement() untuk mengganti halaman yang aktif. Opsi Home mengarahkan pengguna ke MyHomePage. Drawer juga dapat ditutup terlebih dahulu menggunakan pop() sebelum melakukan perpindahan halaman.
+
+Pemilihan metode tersebut membuat navigasi dari kartu dan Drawer tetap sesuai dengan kebutuhan masing-masing.
+
+#### 2. Bagaimana susunan Scaffold, AppBar, dan Drawer membantu menjaga struktur halaman tetap konsisten? Berikan satu contoh penggunaan warna tema portofolio di lebih dari satu halaman.
+
+Scaffold merupakan widget yang menyediakan struktur dasar halaman Flutter, termasuk AppBar, Drawer, dan body.
+
+AppBar digunakan untuk menampilkan judul halaman serta tombol navigasi atau aksi tambahan. Drawer menyediakan menu navigasi yang dapat digunakan untuk berpindah ke halaman lain tanpa harus kembali ke halaman utama terlebih dahulu.
+
+Pada project saya, MyHomePage dan EducationFormPage sama-sama menggunakan Scaffold dan AppBar. Kedua halaman juga menggunakan komponen LeftDrawer yang sama sehingga pengguna mendapatkan pilihan navigasi yang konsisten.
+
+Konsistensi tampilan juga diterapkan melalui penggunaan warna tema. Aplikasi menggunakan warna utama indigo yang dikonfigurasi melalui ThemeData pada main.dart.
+
+Warna tersebut digunakan pada AppBar halaman utama dan formulir melalui Theme.of(context).colorScheme.primary. Drawer juga menggunakan warna indigo pada bagian header.
+
+Dengan penggunaan komponen dan tema yang konsisten, setiap halaman mempunyai struktur dan identitas visual yang seragam meskipun menampilkan konten berbeda.
+
+#### 3. Mengapa tata letak tersebut dipilih untuk formulir? Jelaskan peran widget pengatur jarak dan widget penggulir ketika ruang layar terbatas.
+
+Formulir Tambah Edukasi disusun menggunakan Column karena input pendidikan lebih mudah dibaca dan diisi secara vertikal dari atas ke bawah.
+
+Setiap input ditempatkan secara berurutan, dimulai dari nama institusi, program studi, tahun mulai, pilihan pendidikan yang masih berlangsung, hingga tahun selesai dan tombol Simpan.
+
+Widget Padding digunakan untuk memberikan jarak antara konten dengan tepi layar, sedangkan SizedBox digunakan untuk memberikan ruang antarinput agar formulir tidak terlalu rapat.
+
+Selain itu, saya menggunakan SingleChildScrollView agar seluruh input tetap dapat diakses ketika tinggi layar terbatas atau papan ketik muncul.
+
+Penggunaan SafeArea membantu menjaga konten agar tidak bertabrakan dengan area sistem perangkat.
+
+Tata letak tersebut dipilih karena lebih sederhana, mudah digunakan, dan sesuai dengan kebutuhan formulir yang mempunyai beberapa input.
+
+Tanpa widget penggulir, bagian bawah formulir berpotensi tidak dapat dijangkau ketika ruang layar tidak mencukupi.
+
+#### 4. Apa peran GlobalKey<FormState>, validator, dan validate() saat tombol Simpan ditekan? Berikan satu contoh nilai yang ditolak oleh validasi dan jelaskan mengapa memilih jenis input atau papan ketik saja belum cukup.
+
+GlobalKey<FormState> digunakan untuk mengakses dan mengelola state dari widget Form.
+
+Setiap TextFormField dapat memiliki validator yang bertugas memeriksa apakah data yang dimasukkan memenuhi aturan tertentu. Validator mengembalikan pesan kesalahan apabila input tidak valid dan null apabila input diterima.
+
+Ketika tombol Simpan ditekan, aplikasi memanggil _formkey.currentState!.validate() untuk menjalankan seluruh validator pada formulir.
+
+Jika ada input yang tidak valid, proses penyimpanan dihentikan dan pesan kesalahan ditampilkan pada kolom terkait. Jika seluruh input valid, aplikasi menampilkan AlertDialog berisi ringkasan data pendidikan.
+
+Contohnya, input nama institusi yang hanya berisi spasi akan ditolak karena validator menggunakan trim().isEmpty. Selain itu, tahun selesai 2024 juga akan ditolak apabila tahun mulai adalah 2025.
+
+Penggunaan keyboardType: TextInputType.number membantu menampilkan papan ketik angka, sedangkan FilteringTextInputFormatter.digitsOnly membatasi karakter yang dapat dimasukkan.
+
+Namun, pemilihan jenis papan ketik dan input formatter saja belum cukup untuk memastikan kebenaran data. Input angka seperti 123 tetap bukan tahun empat digit yang valid, dan tahun selesai yang lebih awal daripada tahun mulai juga harus ditolak.
+
+Oleh karena itu, validasi tetap diperlukan untuk memeriksa aturan yang tidak dapat dijamin hanya melalui jenis input.
+
+## AI Usage Disclosure - Week 8
+
+Pada pengerjaan Tutorial 09 dan Tugas 8, saya menggunakan ChatGPT dari OpenAI sebagai alat bantu untuk memahami requirement resmi, merencanakan implementasi Flutter, meninjau source code, membantu debugging, melakukan pengujian, serta menyusun dokumentasi dan jawaban reflektif.
+
+Penggunaan AI tidak hanya terbatas pada penjelasan konsep. AI juga menyediakan contoh implementasi formulir, navigasi, validasi input, dan widget testing yang saya gunakan sebagai dasar pengembangan aplikasi.
+
+Seluruh perubahan diterapkan pada project Flutter lokal menggunakan Visual Studio Code. Hasil implementasi kemudian diperiksa menggunakan Flutter, Git, dan GitHub.
+
+Saya juga memberikan dokumen tugas serta repository Django dan Flutter sebelumnya sebagai konteks agar saran yang diberikan AI tetap sesuai dengan struktur project dan requirement mata kuliah.
+
+### Strategi Penggunaan AI
+
+Saya menggunakan pendekatan source-first dengan memberikan dokumen resmi Tugas 8 kepada ChatGPT sebelum menentukan langkah implementasi.
+
+Saya juga memberikan tautan repository Django dan Flutter agar AI dapat membandingkan struktur project, mengidentifikasi fitur yang sudah tersedia, serta menentukan bagian yang perlu dikembangkan.
+
+Strategi utama saya adalah membatasi perubahan pada fitur yang relevan dengan requirement tugas. Saya meminta AI menyusun workflow dengan implementasi seminimal mungkin, tetapi tetap mempertimbangkan seluruh kriteria penilaian, termasuk fitur tambahan untuk mencapai nilai maksimal.
+
+Pengerjaan dibagi menjadi beberapa tahap:
+
+1. Memeriksa kondisi repository Flutter dan membuat branch `tugas-8-flutter`.
+2. Membuat formulir Tambah Edukasi berdasarkan model Education pada project Django.
+3. Menghubungkan formulir dengan kartu aksi di halaman utama serta navigasi Drawer.
+4. Melakukan pengujian, memperbaiki responsivitas, dan menangani kesalahan pada aplikasi.
+5. Memperbarui README, menjawab pertanyaan reflektif, serta mempersiapkan commit dan pengumpulan tugas.
+
+Saya memilih formulir Edukasi karena model Education sudah tersedia pada project Django sebelumnya. Dengan demikian, struktur input dapat mengikuti model yang sudah ada tanpa perlu membuat fitur baru yang tidak berkaitan dengan project.
+
+Saya juga membatasi implementasi agar tetap berfokus pada materi navigasi dan formulir Flutter. Integrasi API Django, autentikasi, serta penyimpanan data ke database belum ditambahkan karena tidak termasuk kebutuhan utama Tugas 8.
+
+### Bagian yang Dibantu AI
+
+AI digunakan untuk membantu:
+
+- Memahami instruksi resmi dan rubrik penilaian Tugas 8.
+- Memeriksa struktur repository Flutter setelah pengerjaan Tugas 7 dan Tutorial 09.
+- Membandingkan model pada repository Django dengan kebutuhan formulir Flutter.
+- Menentukan formulir Edukasi sebagai fitur baru yang sesuai dengan project portofolio.
+- Menyusun workflow pengerjaan secara bertahap.
+- Memberikan panduan penggunaan Git untuk membuat branch baru tanpa mengganggu branch utama.
+- Menyediakan contoh kode StatefulWidget untuk halaman formulir.
+- Menjelaskan penggunaan Form dan GlobalKey<FormState>.
+- Membuat input nama institusi, program studi, tahun mulai, dan tahun selesai.
+- Menambahkan validator untuk memeriksa input wajib dan format tahun.
+- Memastikan tahun selesai tidak lebih awal daripada tahun mulai.
+- Menambahkan SwitchListTile sebagai fitur tambahan untuk pendidikan yang masih berlangsung.
+- Menggunakan AlertDialog untuk menampilkan ringkasan data formulir.
+- Menghubungkan kartu Tambah Edukasi dengan EducationFormPage menggunakan Navigator.
+- Menambahkan navigasi Add Education pada Drawer.
+- Menjelaskan perbedaan Navigator.push(), Navigator.pushReplacement(), dan Navigator.pop().
+- Memperbaiki tata letak agar dapat digunakan pada layar dengan ukuran berbeda.
+- Memperbarui automated widget testing sesuai dengan perubahan fitur.
+- Membuat pengujian untuk navigasi, validasi formulir, dan dialog.
+- Membantu membaca serta menganalisis output flutter analyze dan flutter test.
+- Mengidentifikasi masalah RenderFlex overflow pada komponen DrawerHeader.
+- Memberikan saran perbaikan berdasarkan source code dan pesan kesalahan.
+- Menyusun dokumentasi perkembangan project dan jawaban empat pertanyaan reflektif.
+- Memberikan panduan commit, push, serta pengumpulan tugas menggunakan tautan commit GitHub.
+
+### Keterbatasan AI dan Pemeriksaan Manual
+
+Selama pengerjaan Tugas 8, saya menemukan bahwa saran AI tidak selalu langsung sesuai dengan kondisi project. Beberapa solusi yang diberikan masih membutuhkan penyesuaian dan pengujian tambahan.
+
+Salah satu masalah terjadi ketika penambahan widget test baru. Instruksi awal AI diberikan dalam beberapa potongan kode yang harus digabungkan dengan pengujian sebelumnya.
+
+Ketika potongan tersebut ditambahkan, beberapa pemanggilan testWidgets berada di luar fungsi main(). Akibatnya, Dart menampilkan banyak kesalahan sintaksis, seperti Expected an identifier dan duplicate definition.
+
+Masalah tersebut diperbaiki dengan menyusun ulang seluruh isi widget_test.dart agar semua pengujian berada di dalam fungsi main(). Perbaikan ini menunjukkan pentingnya memahami struktur kode sebelum menggabungkan contoh implementasi dari AI.
+
+Masalah berikutnya terjadi pada pengujian formulir Edukasi. Salah satu test gagal karena tombol Simpan tidak menerima interaksi saat pengujian berlangsung.
+
+Dari output Flutter, ditemukan bahwa lokasi klik pengujian mengenai elemen lain pada layar. AI kemudian menyarankan pemeriksaan terhadap perilaku SnackBar dan navigasi agar elemen tersebut tidak mengganggu interaksi pada halaman formulir.
+
+Selain itu, terdapat masalah RenderFlex overflow ketika menjalankan pengujian navigasi Drawer. Pada awalnya, AI memperkirakan bahwa masalah tersebut berasal dari struktur halaman utama karena jumlah kartu aksi bertambah dari tiga menjadi empat.
+
+Berdasarkan dugaan tersebut, dilakukan penyesuaian layout menggunakan SingleChildScrollView, pengaturan GridView, dan komponen responsif lainnya.
+
+Namun, perubahan tersebut belum menyelesaikan kegagalan pengujian Drawer.
+
+Setelah saya memberikan output error yang lebih lengkap, ditemukan bahwa sumber overflow sebenarnya berada pada Column di dalam DrawerHeader pada file left_drawer.dart.
+
+Pesan Flutter menunjukkan bahwa konten DrawerHeader melebihi ruang yang tersedia sebesar 15 piksel. Masalah tersebut menyebabkan pengujian gagal dan memunculkan beberapa pesan error lanjutan dari Flutter Widget Inspector.
+
+Perbaikannya dilakukan dengan menyederhanakan isi DrawerHeader dan mengurangi kebutuhan ruang vertikal pada bagian tersebut.
+
+Dari pengalaman ini, saya memahami bahwa AI dapat memberikan dugaan penyebab error yang belum tentu sesuai dengan kondisi sebenarnya. Sebuah solusi juga dapat terlihat benar secara sintaksis, tetapi belum tentu menyelesaikan masalah ketika aplikasi dijalankan.
+
+Oleh karena itu, saya tidak hanya mengandalkan penjelasan AI, tetapi juga memeriksa source code, output terminal, dan lokasi widget yang disebutkan dalam pesan error.
+
+Pemeriksaan dilakukan menggunakan flutter analyze untuk mendeteksi masalah analisis statis dan flutter test untuk menguji perilaku aplikasi. Pengujian secara langsung melalui browser juga digunakan untuk memeriksa tampilan dan navigasi.
+
+Proses tersebut membantu membedakan kesalahan sintaksis, kesalahan layout, dan masalah interaksi pada widget testing.
+
+### AI Prompting Log - Week 8
+
+Berikut beberapa contoh prompt yang merepresentasikan instruksi selama pengerjaan Tutorial 09 dan Tugas 8. Contoh ditulis kembali menggunakan bahasa formal agar konsisten dengan dokumentasi project.
+
+- "Baca requirement resmi Tugas 8 dan bantu saya memahami seluruh ketentuan serta rubrik penilaiannya."
+- "Bandingkan repository Django dan Flutter saya untuk menentukan fitur yang paling sesuai dengan kebutuhan Tugas 8."
+- "Buat workflow pengerjaan secara bertahap dengan implementasi minimal, tetapi tetap memenuhi seluruh kriteria penilaian."
+- "Periksa kondisi repository Flutter saya dan jelaskan cara membuat branch baru untuk Tugas 8 tanpa mengganggu hasil tugas sebelumnya."
+- "Bantu membuat formulir Tambah Edukasi menggunakan StatefulWidget dan sesuaikan atributnya dengan model Education pada project Django."
+- "Jelaskan penggunaan Form, GlobalKey<FormState>, dan validator untuk memastikan seluruh input memenuhi ketentuan."
+- "Tambahkan validasi tahun mulai dan tahun selesai agar tahun selesai tidak lebih awal daripada tahun mulai."
+- "Tambahkan fitur interaktif sederhana yang relevan dengan formulir untuk memenuhi kriteria fitur tambahan."
+- "Bagaimana cara menggunakan SwitchListTile untuk menandai pendidikan yang masih berlangsung dan menyesuaikan input tahun selesai?"
+- "Bantu menghubungkan halaman Tambah Edukasi dengan kartu aksi di halaman utama menggunakan Navigator.push()."
+- "Tambahkan menu Add Education pada Drawer dan pastikan pengguna dapat kembali ke halaman utama."
+- "Jelaskan perbedaan Navigator.push(), Navigator.pushReplacement(), dan Navigator.pop() berdasarkan implementasi aplikasi saya."
+- "Bantu memperbaiki responsivitas halaman agar formulir dan kartu aksi tetap dapat digunakan pada layar kecil."
+- "Perbarui widget testing agar sesuai dengan empat kartu aksi dan fitur formulir Edukasi."
+- "Buat kode widget_test.dart secara lengkap agar seluruh pengujian berada pada struktur yang benar."
+- "Analisis output flutter analyze dan flutter test saya, kemudian jelaskan penyebab error berdasarkan pesan yang ditampilkan."
+- "Mengapa test navigasi Drawer masih gagal meskipun saya sudah memperbaiki struktur navigasinya?"
+- "Periksa pesan RenderFlex overflow dan tentukan file serta widget yang menyebabkan masalah."
+- "Bagaimana cara memperbaiki DrawerHeader agar tidak menyebabkan overflow pada pengujian Flutter?"
+- "Periksa apakah implementasi formulir, navigasi, validasi, dan fitur tambahan sudah sesuai dengan requirement Tugas 8."
+- "Bantu memperbarui README dengan struktur dan gaya dokumentasi yang konsisten dengan Tugas 7 sebelumnya."
+- "Susun jawaban empat pertanyaan reflektif berdasarkan implementasi Flutter yang sudah dibuat."
+- "Buat AI Usage Disclosure yang menjelaskan strategi prompting, bagian yang dibantu AI, keterbatasan, dan evaluasi penggunaan AI."
+- "Berikan panduan penggunaan Git untuk commit, push, merge ke branch main, dan mendapatkan tautan commit final untuk pengumpulan."
+
+Prompting dilakukan secara bertahap dengan memberikan dokumen resmi, tautan repository, potongan source code, serta hasil terminal sebagai konteks.
+
+Ketika mengalami kendala, saya memberikan pesan error yang lebih lengkap agar AI dapat memperbaiki analisisnya berdasarkan informasi yang lebih spesifik.
+
+Saya juga meminta solusi yang mempertahankan fitur sebelumnya agar pengerjaan Tugas 8 tidak mengganggu hasil Tugas 7 dan Tutorial 09.
+
+### Evaluasi Penggunaan AI
+
+AI membantu mempercepat proses pengembangan aplikasi, terutama dalam memahami konsep Flutter yang berkaitan dengan navigasi, StatefulWidget, formulir, validasi, dan pengujian otomatis.
+
+Pembagian pekerjaan menjadi beberapa tahap juga membantu menjaga pengerjaan tetap terarah. Setiap tahap mempunyai tujuan yang jelas, sehingga perubahan dapat diperiksa sebelum melanjutkan ke bagian berikutnya.
+
+Namun, pengalaman debugging menunjukkan bahwa AI tetap mempunyai keterbatasan. Beberapa instruksi yang diberikan tidak langsung sesuai dengan struktur kode, sementara beberapa dugaan penyebab error perlu diperbaiki setelah informasi tambahan tersedia.
+
+Kesalahan pada widget testing dan DrawerHeader menjadi contoh bahwa hasil AI tidak dapat langsung dianggap benar tanpa pengujian.
+
+Saya juga memahami bahwa flutter analyze dan flutter test mempunyai fungsi yang berbeda. Kode yang tidak menghasilkan masalah pada analisis statis masih dapat mengalami kegagalan saat pengujian perilaku atau layout.
+
+Oleh karena itu, penggunaan AI perlu dipadukan dengan pemahaman terhadap source code, pemeriksaan output terminal, dan pengujian secara langsung.
+
+Secara keseluruhan, AI berperan sebagai alat bantu pembelajaran, implementasi, debugging, dan dokumentasi. Namun, pemeriksaan terhadap hasil implementasi tetap diperlukan agar aplikasi sesuai dengan requirement dan dapat dipertanggungjawabkan.
+
 
 ## References
 

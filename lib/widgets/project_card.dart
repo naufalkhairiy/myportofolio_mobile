@@ -15,6 +15,24 @@ class ItemCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: () {
+          if (item.name == 'Tambah Proyek') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProjectFormPage()),
+            );
+            return;
+          }
+
+          if (item.name == 'Tambah Edukasi') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const EducationFormPage(),
+              ),
+            );
+            return;
+          }
+
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -22,20 +40,6 @@ class ItemCard extends StatelessWidget {
                 content: Text('Kamu telah menekan tombol ${item.name}!'),
               ),
             );
-
-          if (item.name == "Tambah Proyek") {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ProjectFormPage()),
-            );
-          } else if (item.name == "Tambah Edukasi") {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const EducationFormPage(),
-              ),
-            );
-          }
         },
         child: Container(
           padding: const EdgeInsets.all(8),
@@ -43,8 +47,8 @@ class ItemCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(item.icon, color: Colors.white, size: 30.0),
-                const Padding(padding: EdgeInsets.all(3)),
+                Icon(item.icon, color: Colors.white, size: 30),
+                const SizedBox(height: 3),
                 Text(
                   item.name,
                   textAlign: TextAlign.center,
