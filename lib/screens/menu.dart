@@ -12,6 +12,7 @@ class MyHomePage extends StatelessWidget {
   final List<ItemHomepage> items = const [
     ItemHomepage('Lihat Proyek', Icons.folder, Colors.blue),
     ItemHomepage('Tambah Proyek', Icons.add_circle, Colors.green),
+    ItemHomepage('Tambah Edukasi', Icons.school, Colors.orange),
     ItemHomepage('Logout', Icons.logout, Colors.red),
   ];
 
@@ -21,90 +22,100 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'MyPortofolio',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        iconTheme: const IconThemeData(color: Colors.white),
-
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
-            icon: const Icon(Icons.info_outline, color: Colors.white),
+            icon: const Icon(Icons.info_outline),
             tooltip: 'Tentang Aplikasi',
             onPressed: () {
               showDialog<void>(
                 context: context,
-                builder: (BuildContext dialogContext) {
+                builder: (dialogContext) {
                   return AlertDialog(
                     title: const Text('Tentang MyPortofolio'),
                     content: const Text(
                       'MyPortofolio adalah aplikasi portofolio pribadi '
-                      'milik Naufal Khairiy Zulkarnain Sormin. \n\n'
+                      'milik Naufal Khairiy Zulkarnain Sormin.\n\n'
                       'NPM: 2506621850\n'
                       'Kelas: PBP D\n\n'
                       'Aplikasi ini dibuat menggunakan Flutter '
-                      'untuk menampilkan informasi dan proyek portofolio. ',
+                      'untuk menampilkan informasi dan proyek portofolio.',
                     ),
                     actions: [
                       TextButton(
                         onPressed: () {
-                          Navigator.of(dialogContext).pop();
-                        }, 
+                          Navigator.pop(dialogContext);
+                        },
                         child: const Text('Tutup'),
-                        ),
+                      ),
                     ],
                   );
                 },
               );
             },
-          )
+          ),
         ],
       ),
       drawer: const LeftDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                InfoCard(title: 'NPM', content: npm),
-                InfoCard(title: 'Name', content: nama),
-                InfoCard(title: 'Class', content: kelas),
-              ],
-            ),
-            const SizedBox(height: 16.0),
-            Center(
-              child: Column(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final availableWidth = constraints.maxWidth;
+              final isNarrow = availableWidth < 600;
+
+              final infoWidth = isNarrow
+                  ? availableWidth
+                  : (availableWidth - 24) / 3;
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 16.0),
-                    child: Text(
-                      'Selamat datang di MyPortfolio Mobile!',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    children: [
+                      SizedBox(
+                        width: infoWidth,
+                        child: InfoCard(title: 'NPM', content: npm),
                       ),
-                    ),
+                      SizedBox(
+                        width: infoWidth,
+                        child: InfoCard(title: 'Name', content: nama),
+                      ),
+                      SizedBox(
+                        width: infoWidth,
+                        child: InfoCard(title: 'Class', content: kelas),
+                      ),
+                    ],
                   ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Selamat datang di MyPortfolio Mobile!',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  const SizedBox(height: 16),
                   GridView.count(
-                    primary: true,
-                    padding: const EdgeInsets.all(20),
+                    crossAxisCount: 2,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    crossAxisCount: 3,
+                    mainAxisExtent: 115,
                     shrinkWrap: true,
-                    children: items.map((ItemHomepage item) {
+                    primary: false,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: items.map((item) {
                       return ItemCard(item);
                     }).toList(),
                   ),
                 ],
-              ),
-            ),
-          ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -120,18 +131,15 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2.0,
-      child: Container(
-        width: MediaQuery.of(context).size.width / 3.5,
-        padding: const EdgeInsets.all(16.0),
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8.0),
-            Text(content),
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            Text(content, textAlign: TextAlign.center),
           ],
         ),
       ),
@@ -146,4 +154,3 @@ class ItemHomepage {
 
   const ItemHomepage(this.name, this.icon, this.color);
 }
-
