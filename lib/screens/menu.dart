@@ -12,6 +12,7 @@ class MyHomePage extends StatelessWidget {
   final List<ItemHomepage> items = const [
     ItemHomepage('Lihat Proyek', Icons.folder, Colors.blue),
     ItemHomepage('Tambah Proyek', Icons.add_circle, Colors.green),
+    ItemHomepage('Tambah Edukasi', Icons.school, Colors.orange),
     ItemHomepage('Logout', Icons.logout, Colors.red),
   ];
 
@@ -21,10 +22,7 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'MyPortofolio',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -51,15 +49,15 @@ class MyHomePage extends StatelessWidget {
                       TextButton(
                         onPressed: () {
                           Navigator.of(dialogContext).pop();
-                        }, 
+                        },
                         child: const Text('Tutup'),
-                        ),
+                      ),
                     ],
                   );
                 },
               );
             },
-          )
+          ),
         ],
       ),
       drawer: const LeftDrawer(),
@@ -95,7 +93,7 @@ class MyHomePage extends StatelessWidget {
                     padding: const EdgeInsets.all(20),
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    crossAxisCount: 3,
+                    crossAxisCount: 2,
                     shrinkWrap: true,
                     children: items.map((ItemHomepage item) {
                       return ItemCard(item);
@@ -126,10 +124,7 @@ class InfoCard extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8.0),
             Text(content),
           ],
@@ -146,4 +141,3 @@ class ItemHomepage {
 
   const ItemHomepage(this.name, this.icon, this.color);
 }
-
