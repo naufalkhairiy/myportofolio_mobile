@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:myportofolio_mobile/main.dart';
 import 'package:myportofolio_mobile/widgets/project_card.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
+import 'package:myportofolio_mobile/services/api_client.dart';
 
 void main() {
   // TEST 1: Identitas pemilik portofolio
@@ -41,20 +44,49 @@ void main() {
   });
 
   // TEST 4: SnackBar tombol Lihat Proyek
-  testWidgets('Tombol Lihat Proyek menampilkan SnackBar', (
+  testWidgets('Tombol Lihat Proyek menampilkan data API', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const MyApp());
+    final client = ApiClient(
+      client: MockClient((request) async {
+        return http.Response(
+          '''
+          [
+            {
+              "id": "project-1",
+              "title": "Proyek Testing",
+              "description": "Deskripsi proyek testing",
+              "tech_stack": "Django dan Flutter",
+              "project_url": "https://example.com",
+              "project_image_url": ""
+            }
+          ]
+          ''',
+          200,
+          headers: {'content-type': 'application/json'},
+        );
+      }),
+    );
 
+    addTearDown(client.close);
+
+    await tester.pumpWidget(MyApp(apiClient: client));
+
+    await tester.ensureVisible(find.text('Lihat Proyek'));
     await tester.tap(find.text('Lihat Proyek'));
     await tester.pumpAndSettle();
 
-    expect(
-      find.text('Kamu telah menekan tombol Lihat Proyek!'),
-      findsOneWidget,
-    );
-  });
+    expect(find.text('Daftar Proyek'), findsOneWidget);
+    expect(find.text('Proyek Testing'), findsOneWidget);
+    expect(find.text('Django dan Flutter'), findsOneWidget);
 
+    await tester.tap(find.text('Proyek Testing'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Detail Proyek'), findsOneWidget);
+    expect(find.text('Deskripsi proyek testing'), findsOneWidget);
+    expect(find.text('https://example.com'), findsOneWidget);
+  });
   // TEST 5: Dialog informasi aplikasi
   testWidgets('Dialog informasi dapat dibuka dan ditutup', (
     WidgetTester tester,
