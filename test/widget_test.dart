@@ -25,7 +25,7 @@ void main() {
     expect(find.text('Lihat Proyek'), findsOneWidget);
     expect(find.text('Tambah Proyek'), findsOneWidget);
     expect(find.text('Tambah Edukasi'), findsOneWidget);
-    expect(find.text('Logout'), findsOneWidget);
+    expect(find.text('Login'), findsOneWidget);
   });
 
   // TEST 3: Warna kartu aksi sesuai
